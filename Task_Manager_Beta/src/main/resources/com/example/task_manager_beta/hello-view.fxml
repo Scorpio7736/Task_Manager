@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Spinner?>
+
+<?import javafx.scene.layout.ColumnConstraints?>
+
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:id="MainPane"
+          fx:controller="com.example.task_manager_beta.HelloController"
+          hgap="20" vgap="20" style="-fx-background-color: #e6e6e6; -fx-padding: 20; -fx-font-family: 'Segoe UI', sans-serif;">
+    <columnConstraints>
+        <ColumnConstraints percentWidth="40"/>
+        <ColumnConstraints percentWidth="60"/>
+    </columnConstraints>
+
+    <!-- Left Panel -->
+    <GridPane GridPane.columnIndex="0" GridPane.rowIndex="0" vgap="25"
+              style="-fx-background-color: #f2f2f2; -fx-background-radius: 8; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 4);">
+
+        <!-- Create Task -->
+        <GridPane GridPane.rowIndex="0" GridPane.columnIndex="0" vgap="15" hgap="15">
+            <Label text="Create Task" GridPane.rowIndex="0" GridPane.columnSpan="2"
+                   style="-fx-font-size: 18pt; -fx-font-weight: bold; -fx-text-fill: #222222; -fx-padding: 0 0 10 0;"/>
+
+            <Label text="Select a Task Type:" wrapText="true" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-padding: 4 10 4 0;"/>
+            <ComboBox fx:id="taskComboBox" prefWidth="220" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Select task quantity:" wrapText="true" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-padding: 4 10 4 0;"/>
+            <Spinner fx:id="taskQuantitySpinner" prefWidth="220" GridPane.rowIndex="2" GridPane.columnIndex="1" min="1" max="100"/>
+
+            <Label text="Hours Required:" wrapText="true" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-padding: 4 10 4 0;"/>
+            <ComboBox fx:id="hoursRequiredComboBox" prefWidth="220" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Is Setup Required:" wrapText="true" GridPane.rowIndex="4" GridPane.columnIndex="0" style="-fx-padding: 4 10 4 0;"/>
+            <CheckBox fx:id="setupRequiredBox" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <Label text="Is CleanUp Required:" wrapText="true" GridPane.rowIndex="5" GridPane.columnIndex="0" style="-fx-padding: 4 10 4 0;"/>
+            <CheckBox fx:id="cleanupRequiredBox" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+            <HBox GridPane.rowIndex="6" GridPane.columnIndex="1" alignment="BASELINE_RIGHT">
+                <Button text="Add Task"
+                        style="-fx-padding: 6 12;" onAction="#SaveButton_Click">
+                    <HBox.margin>
+                        <Insets right="10"/>
+                    </HBox.margin>
+                </Button>
+
+                <Button text="Cancel"
+                        style="-fx-padding: 6 12;" onAction="#ClearButton_Click"/>
+
+            </HBox>
+        </GridPane>
+
+        <!-- General info -->
+        <GridPane GridPane.rowIndex="1" GridPane.columnIndex="0" vgap="15" hgap="15" style="-fx-padding: 20 0 0 0;">
+            <Label text="General Info" GridPane.rowIndex="0" GridPane.columnSpan="2"
+                   style="-fx-font-size: 18pt; -fx-font-weight: bold; -fx-text-fill: #222222; -fx-padding: 0 0 10 0;"/>
+
+            <Label text="Time to complete all tasks:" wrapText="true" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-padding: 4 10 4 0;"/>
+            <TextField fx:id="timeToCompleteField" editable="false" prefWidth="220" GridPane.rowIndex="1" GridPane.columnIndex="1" text="0.0"/>
+
+            <Label text="Time spent on completed tasks:" wrapText="true" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-padding: 4 10 4 0;"/>
+            <TextField fx:id="timeCompleted" editable="false" prefWidth="220" GridPane.rowIndex="2" GridPane.columnIndex="1" text="0.0"/>
+
+            <Label text="Next Priority Task:" wrapText="true" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-padding: 4 10 4 0;"/>
+            <TextField fx:id="mostCommonTask" editable="false" prefWidth="220" GridPane.rowIndex="3" GridPane.columnIndex="1" text="None"/>
+        </GridPane>
+    </GridPane>
+
+
+    <!-- Right Panel -->
+    <GridPane GridPane.columnIndex="1" GridPane.rowIndex="0" vgap="20"
+
+              style="-fx-background-color: #f2f2f2; -fx-background-radius: 8; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 4);">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints vgrow="ALWAYS"/>
+        </rowConstraints>
+
+        <Label text="Tasks To Complete" GridPane.rowIndex="0" GridPane.columnSpan="2"
+               style="-fx-font-size: 18pt; -fx-font-weight: bold; -fx-text-fill: #222222;"/>
+
+        <TableView fx:id="taskTable" GridPane.rowIndex="1"
+                   style="-fx-background-radius: 6; -fx-border-color: #cccccc; -fx-border-radius: 6;">
+            <columns>
+                <TableColumn fx:id="typeColumn" text="Task Type"/>
+                <TableColumn fx:id="hoursRequiredColumn" text="Hours Required"/>
+                <TableColumn fx:id="setupColumn" text="Setup Required"/>
+                <TableColumn fx:id="cleanupColumn" text="Cleanup Required"/>
+                <TableColumn fx:id="completeColumn" text="Actions"/>
+            </columns>
+        </TableView>
+
+        <Label text="Completed Tasks" GridPane.rowIndex="2" GridPane.columnSpan="2"
+               style="-fx-font-size: 18pt; -fx-font-weight: bold; -fx-text-fill: #222222; -fx-padding: 20 0 0 0;"/>
+
+        <TableView fx:id="completedTaskTable" GridPane.rowIndex="3" prefWidth="600" style="-fx-background-radius: 6; -fx-border-color: #cccccc; -fx-border-radius: 6;">
+            <columns>
+                <TableColumn fx:id="completedTypeColumn" text="Task Type"/>
+                <TableColumn fx:id="dateTimeCompletedColumn" text="Date/Time Completed"/>
+            </columns>
+        </TableView>
+    </GridPane>
+
+    <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="root" GridPane.columnSpan="2" mouseTransparent="true"/>
+
+</GridPane>
